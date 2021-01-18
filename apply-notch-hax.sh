@@ -35,6 +35,7 @@ if [ ! -e $DIFF ]; then
        then fork the repo, create a patches/$DEVICE.diff
        and modify this script to fetch the patches from your
        fork for testing!
+	   
 	   Alternatively, specify a device template to use with
 	   '$0 <device>'"
 		exit 1
@@ -60,7 +61,7 @@ if ! patch -p1 < $DIFF; then
           Please adjust '$DEVICE.diff' and try again!"
 	exit 1
 fi
-cd ..
+cd ../
 
 echo ">> Patches applied successfully! Proceeding to replacing system files..."
 mount | grep -q ' / .*ro' && sudo mount -o remount,rw /
