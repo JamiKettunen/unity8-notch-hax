@@ -7,8 +7,24 @@ if [ $UID -eq 0 ]; then
 fi
 
 WORK="$HOME/.cache/unity8-notch-hax"
-DEVICE="$(getprop ro.product.device)" # e.g. 'yggdrasil'
+DEVICE="$1"
+
+if [ -z $DEVICE ]; then
+	echo ">> Attempting to detect device name"
+	DEVICE="$(getprop ro.product.device)" # e.g. 'yggdrasil'
+fi
+
+# Some devices (CI?) don't have ro.product.device set properly
+if [ "$DEVICE" = "halium_arm64" ]; then
+	echo ">> Trying backup getprop"
+	DEVICE="$(getprop ro.product.vendor.device)" # e.g. 'OnePlus6'
+fi
+
+echo "Device is '$DEVICE'"
+
 DIFF="$WORK/$DEVICE.diff"
+echo "Using diff '$DIFF'"
+
 
 if [ ! -e $DIFF ]; then
 	mkdir -p $WORK
@@ -18,7 +34,9 @@ if [ ! -e $DIFF ]; then
        please tune the files on your device manually first,
        then fork the repo, create a patches/$DEVICE.diff
        and modify this script to fetch the patches from your
-       fork for testing!"
+       fork for testing!
+	   Alternatively, specify a device template to use with
+	   '$0 <device>'"
 		exit 1
 	fi
 fi
@@ -42,7 +60,7 @@ if ! patch -p1 < $DIFF; then
           Please adjust '$DEVICE.diff' and try again!"
 	exit 1
 fi
-cd ../
+cd ..
 
 echo ">> Patches applied successfully! Proceeding to replacing system files..."
 mount | grep -q ' / .*ro' && sudo mount -o remount,rw /
