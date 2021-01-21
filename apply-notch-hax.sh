@@ -36,7 +36,7 @@ if [ ! -e $DIFF ]; then
        and modify this script to fetch the patches from your
        fork for testing!
 	   
-	   Alternatively, specify a device template to use with
+       Alternatively, specify a device template to use with
 	   '$0 <device>'"
 		exit 1
 	fi
