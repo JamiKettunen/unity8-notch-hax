@@ -6,6 +6,7 @@ Lomiri (formely Unity 8) patches for improved display notch and rounded corners 
 * OnePlus 6/6T
 * Xiaomi Poco F1
 * Xiaomi Redmi Note 7
+* Xiaomi Redmi Note 9S
 
 ## Applying the patch
 Simply run the script in this repo as the `phablet` user:
